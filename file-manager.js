@@ -14,7 +14,12 @@ var useStdin = function() {
 		} else if (inputSplit[0] == "rm") {
             var fName = inputSplit[1];
             removeFile(fName);
-        }
+        } else if (inputSplit[0] == "replace") {
+            var fileToSearch = inputSplit[1];
+            var wordToReplace = inputSplit[2];
+            var replacementWord = inputSplit[3];
+            findAndReplace(fileToSearch, wordToReplace, replacementWord);
+        } 
 	}
 };
 
@@ -43,6 +48,19 @@ function catFile(fileName) {
     function removeFile(fName) {
             fs.unlink(fName);
             console.log(fName + "deleted successfully");
+    }
+    
+    function findAndReplace(fileToSearch, wordToReplace, replacementWord){
+        fs.readFile(fileToSearch, 'utf8', function (err,data) {
+              if (err) {
+                return console.log(err);
+              }
+                    var result = data.split(wordToReplace).join(replacementWord);
+                  fs.writeFile(fileToSearch, result, 'utf8', function (err) {
+                     if (err) return console.log(err);
+                  });
+            
+        });
     }
 
 process.stdin.on('readable', useStdin);
