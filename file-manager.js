@@ -67,14 +67,23 @@ function catFile(fileName) {
         });
     }
     
+    function findWord(a, b) {
+        if (a.indexOf(b) !== -1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
     function findALine(fName, wordToFind) {
             fs.readFile(fName, function (err, data) {
                   if (err) throw err;
-                var dataAsArray = data.toString().trim().split(" ");
+                var dataAsArray = data.toString().trim().split("\n");
                 for (var i = 0; i < dataAsArray.length; i++)
-                  if(data.toString().indexOf(wordToFind) !== -1){
-                   console.log(data.toString());
-                  }
+                  //if(data.toString().indexOf(wordToFind) !== -1){
+                    if(findWord(dataAsArray[i], wordToFind)){
+                        console.log(dataAsArray[i]);
+                    }
                 });
     }
 
