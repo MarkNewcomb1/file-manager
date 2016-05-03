@@ -19,7 +19,11 @@ var useStdin = function() {
             var wordToReplace = inputSplit[2];
             var replacementWord = inputSplit[3];
             findAndReplace(fileToSearch, wordToReplace, replacementWord);
-        } 
+        } else if (inputSplit[0] == "grep") {
+            var fName = inputSplit[1];
+            var wordToFind = inputSplit[2];
+            findALine(fName, wordToFind);
+        }
 	}
 };
 
@@ -61,6 +65,17 @@ function catFile(fileName) {
                   });
             
         });
+    }
+    
+    function findALine(fName, wordToFind) {
+            fs.readFile(fName, function (err, data) {
+                  if (err) throw err;
+                var dataAsArray = data.toString().trim().split(" ");
+                for (var i = 0; i < dataAsArray.length; i++)
+                  if(data.toString().indexOf(wordToFind) !== -1){
+                   console.log(data.toString());
+                  }
+                });
     }
 
 process.stdin.on('readable', useStdin);
